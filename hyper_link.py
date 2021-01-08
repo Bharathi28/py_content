@@ -33,14 +33,38 @@ for x in data:
         print(URL)
         p = Path(__file__).parents[2]
         print(os.path.join(p, rel_path))
-        driver = webdriver.Chrome(executable_path=r"F:\Python\GR\Driver\chromedriver.exe")
-        script_dir = os.path.dirname(__file__)
 
+        script_dir = os.path.dirname(__file__)
         abs_file_path = os.path.join(script_dir, rel_path)
         print(abs_file_path)
         p = Path(__file__).parents[2]
+        path = os.path.join(p, rel_path)
         print(os.path.join(p, rel_path))
-        # driver.maximize_window()
-        # driver.get(URL)
+
+        driver = webdriver.Chrome(executable_path=path)
+        driver.maximize_window()
+        driver.get(URL)
+        # Step 1 : Check - Terms & Conditions
+        # Store all locators in content_locators table
+        # Replicate get_element_locator function from CommonUtilities.java file
+        print(driver.title)
+        element = WebDriverWait(driver, 100).until(
+            EC.visibility_of_element_located((By.XPATH, "//a[contains(text(),'Terms & Conditions')]")))
+        TC = driver.find_element_by_xpath("//a[contains(text(),'Terms & Conditions')]")
+        TC.click()
+        TC1 = "//div[@id='popupcontent']"
+        element = WebDriverWait(driver, 100).until(
+            EC.visibility_of_element_located((By.XPATH, TC1)))
+        element1 = driver.find_element_by_xpath("//div[@id='popupcontent']").text
+        element2 = element1.rstrip()
+        path = "F:\Python\GR\Content\Terms of Use and Conditions\English"
+        path2 = path + "\\" + brand + ".txt"
+        File2 = open(path2, "r")
+        File1 = (File2.read())
+        File1.rstrip()
+        if element2 == File1:
+            print("Terms of Use and Conditions of Purchase : " + "Passed")
+        else:
+            print("Terms of Use and Conditions of Purchase : " + "Failed")
 
 driver.quit()
