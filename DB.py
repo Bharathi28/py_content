@@ -20,7 +20,7 @@ def db_connection(query):
     except Error as e:
         print("Error while connecting to MySQL", e)
     finally:
-        if (connection.is_connected()):
+        if connection.is_connected():
             cursor.close()
             connection.close()
             print("MySQL connection is closed")
@@ -39,6 +39,9 @@ def get_url2():
     print(query)
     query_d = db_connection(query)
     return query_d
+
+
+print(get_url2())
 
 
 def get_cta_locators(env, brand, campaign):

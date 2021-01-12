@@ -9,10 +9,13 @@ from CommonUtilities import my_function
 from DB import db_connection as connect
 from DB import get_url
 from DB import get_cta_locators
+from CommonUtilities import driver_path
+import os
 
 # Read inputs from excel
 # Env = QA, Brand = CrepeERase, Campaign = core
-
+script_dir_in = os.path.dirname(__file__)  # <-- absolute dir the script is in
+# C:\Users\manibharathi\.jenkins\workspace\py_content
 # url = get_url (env, brand, campaign)
 # url ="https:// www.crepeerase.com"
 data = my_function()
@@ -29,7 +32,7 @@ for x in data:
         print("Execution started for " + env + brand + campaign)
         URL = get_url(env, brand, campaign)
         print(URL)
-        driver = webdriver.Chrome(executable_path=r"F:\Python\GR\Driver\chromedriver.exe")
+        driver = webdriver.Chrome(driver_path())
         driver.maximize_window()
         driver.get(URL)
         # Step 1 : Check - Terms & Conditions
@@ -45,8 +48,8 @@ for x in data:
             EC.visibility_of_element_located((By.XPATH, TC1)))
         element1 = driver.find_element_by_xpath("//div[@id='popupcontent']").text
         element2 = element1.rstrip()
-        path = "F:\Python\GR\Content\Terms of Use and Conditions\English"
-        path2 = path + "\\" + brand + ".txt"
+        path = "/Content/Terms of Use and Conditions/English"
+        path2 = script_dir_in + path + "\\" + brand + ".txt"
         File2 = open(path2, "r")
         File1 = (File2.read())
         File1.rstrip()
@@ -93,8 +96,8 @@ for x in data:
             EC.visibility_of_element_located((By.XPATH, TC1)))
         element4 = driver.find_element_by_xpath("//div[@id='content']").text
         element5 = element4.rstrip()
-        path = "F:\Python\GR\Content\Privacy Policy\English"
-        path1 = path + "\\" + brand + ".txt"
+        path = "/Content/Privacy Policy/English"
+        path1 = script_dir_in + path + "\\" + brand + ".txt"
         File3 = open(path1, "r")
         File4 = File3.read()
         File5 = File4.rstrip()
@@ -198,7 +201,7 @@ for x in data:
             else:
                 print("Do Not Sell My Info in SAS link not found : " + "Failed")
             try:
-                kit_id = "//div[@data-productid='CSPG029']//div[@class='sas-checkbox clearfix']//h3"
+                kit_id = "//div[@data-productid='CSPG012']//div[@class='sas-checkbox clearfix']//h3"
                 element13 = WebDriverWait(driver, 100).until(
                     EC.visibility_of_element_located((By.XPATH, kit_id)))
                 element12 = driver.find_element_by_xpath(
@@ -207,6 +210,10 @@ for x in data:
                 element9 = WebDriverWait(driver, 100).until(
                     EC.visibility_of_element_located((By.XPATH, "//a[@class='cta']")))
                 element10 = driver.find_element_by_xpath("//a[@class='cta']").click()
+                Thanks_No = WebDriverWait(driver, 100).until(
+                    EC.visibility_of_element_located((By.XPATH, "//a[text() = 'No, Thanks']")))
+                if (Thanks_No == True):
+                    driver.find_element_by_xpath("//a[text() = 'No, Thanks']").click()
                 # Step 6 : Check - T&C Popup link functionality on checkout page
                 TC_PU = "//*[@id='tncEntryKit']/p/span[1]/a"
                 element9 = WebDriverWait(driver, 100).until(
