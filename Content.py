@@ -92,8 +92,9 @@ for x in data:
                 print("Child window title: " + driver.title)
 
         TC1 = "//h1[contains(text(),'Privacy Policy')]"
+        TC_MB = "//a[contains(text(),'Privacy Policy')]"
         element = WebDriverWait(driver, 100).until(
-            EC.visibility_of_element_located((By.XPATH, TC1)))
+            EC.visibility_of_element_located((By.XPATH, TC_MB)))
         element4 = driver.find_element_by_xpath("//div[@id='content']").text
         element5 = element4.rstrip()
         path = "/Content/Privacy Policy/English"
@@ -215,14 +216,15 @@ for x in data:
                 if (Thanks_No == True):
                     driver.find_element_by_xpath("//a[text() = 'No, Thanks']").click()
                 # Step 6 : Check - T&C Popup link functionality on checkout page
-                TC_PU = "//*[@id='tncEntryKit']/p/span[1]/a"
+                TC_PU = "//a[contains(text(),'No, Thanks')]"
                 element9 = WebDriverWait(driver, 100).until(
-                    EC.visibility_of_element_located((By.XPATH, "//*[@id='tncEntryKit']/p/span[1]/a")))
-                element10 = driver.find_element_by_xpath("//*[@id='tncEntryKit']/p/span[1]/a").click()
+                    EC.visibility_of_element_located((By.XPATH, TC_PU)))
+                element10 = driver.find_element_by_xpath(TC_PU).click()
                 element13 = WebDriverWait(driver, 100).until(
-                    EC.visibility_of_element_located((By.XPATH, "//*[@id='popupRevealModal']/div[2]/button")))
-                TC_PU_Cs = driver.find_element_by_xpath("//*[@id='popupRevealModal']/div[2]/button").is_displayed()
-                element14 = driver.find_element_by_xpath("//*[@id='popupRevealModal']/div[2]/button").click()
+                    EC.visibility_of_element_located((By.XPATH, "(//a[@class='popupRevealModal'])[1]")))
+                TC = "(//a[@class='popupRevealModal'])[1]"
+                TC_PU_Cs = driver.find_element_by_xpath(TC).is_displayed()
+                element14 = driver.find_element_by_xpath(TC).click()
                 if (TC_PU_Cs == True):
                     print("T&C Popup link in Checkout Displayed : " + "Passed")
                 else:
