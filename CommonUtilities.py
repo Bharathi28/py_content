@@ -1,5 +1,8 @@
 import xlrd
 import os
+from idlelib import browser
+
+# from Content import driver, URL
 
 SheetName = 'Content'
 script_dir_in = os.path.dirname(__file__)  # <-- absolute dir the script is in
@@ -42,3 +45,11 @@ def getExcelData(input_path, sheet_name):
 
     for i in range(1, sheet.nrows):
         print(i)
+
+
+def check_DoNotInfo_Redirect(driver, url):
+    driver.find_element_by_xpath("//a[@id='donot-sell']").click()
+    redirect = browser.current_url
+    print(redirect)
+    driver.switch_to.window(driver.window_handles[2])
+    driver.get(url)

@@ -11,6 +11,7 @@ from DB import get_url
 from DB import get_cta_locators
 from CommonUtilities import driver_path
 import os
+from CommonUtilities import check_DoNotInfo_Redirect
 
 # Read inputs from excel
 # Env = QA, Brand = CrepeERase, Campaign = core
@@ -106,7 +107,7 @@ for x in data:
             print("Privacy Policy : " + "Passed")
         else:
             print("Privacy Policy : " + "Failed")
-            print(File5)
+            # print(File5)
         time.sleep(5)
         element6 = WebDriverWait(driver, 100).until(
             EC.visibility_of_element_located((By.XPATH, "//a[contains(text(),'Your California Privacy Rights')]")))
@@ -191,6 +192,11 @@ for x in data:
             EC.visibility_of_element_located((By.XPATH, "//a[@id='donot-sell']")))
         donot_sell = driver.find_element_by_xpath("//a[@id='donot-sell']").is_displayed()
         if (donot_sell == True):
+            driver.find_element_by_xpath("//a[@id='donot-sell']").click()
+            redirect = driver.current_url
+            print(redirect)
+            driver.switch_to.window(driver.window_handles[2])
+            driver.get(URL)
             print("Do Not Sell My Info in Home page Displayed : " + "Passed")
         else:
             print("Do Not Sell My Info in Home page link not found : " + "Failed")
@@ -223,6 +229,8 @@ for x in data:
                 element13 = WebDriverWait(driver, 100).until(
                     EC.visibility_of_element_located((By.XPATH, "(//a[@class='popupRevealModal'])[1]")))
                 TC = "(//a[@class='popupRevealModal'])[1]"
+                element23 = WebDriverWait(driver, 100).until(
+                    EC.visibility_of_element_located((By.XPATH, TC)))
                 TC_PU_Cs = driver.find_element_by_xpath(TC).is_displayed()
                 element14 = driver.find_element_by_xpath(TC).click()
                 if (TC_PU_Cs == True):
@@ -234,6 +242,7 @@ for x in data:
                     EC.visibility_of_element_located((By.XPATH, "//button[@class='button checkout']")))
                 element12 = driver.find_element_by_xpath("//button[@class='button checkout']").click()
             if (donot_sell == True):
+
                 print("Do Not Sell My Info in Checkout Displayed : " + "Passed")
             else:
                 print("Do Not Sell My Info in Checkout link not found : " + "Failed")
