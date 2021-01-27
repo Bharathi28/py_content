@@ -109,7 +109,7 @@ for x in data:
             print("Privacy Policy : " + "Failed")
             # print(File5)
         time.sleep(5)
-        element6 = WebDriverWait(driver, 100).until(
+        element6 = WebDriverWait(driver, 200).until(
             EC.visibility_of_element_located((By.XPATH, "//a[contains(text(),'Your California Privacy Rights')]")))
         TC4 = driver.find_element_by_xpath("//a[contains(text(),'Your California Privacy Rights')]")
         TC4.click()
